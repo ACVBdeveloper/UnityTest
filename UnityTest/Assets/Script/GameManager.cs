@@ -1,13 +1,19 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-
+    
     public BoardManager boardManager;
     public PlayerController playerController;
     public TurnManager turnManager { get; private set; }
+    private int storeFood;
+    public UIDocument uiDoc;
+    private Label m_FoodLabel;
 
+
+    
     private void Awake() 
     {
         if (Instance != null) 
@@ -21,7 +27,11 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        storeFood = Random.Range(5, 100);
+        m_FoodLabel = uiDoc.rootVisualElement.Q<Label>("FoodLabel");
+        m_FoodLabel.text = "Food: " + storeFood;
         turnManager = new TurnManager();
+        turnManager.OnTick += OnTurnHappens;
         boardManager.Init();
         playerController.Spawn(boardManager,new Vector2Int(1,1));
         
@@ -30,6 +40,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+   
         
+        
+    }
+
+    public void OnTurnHappens() 
+    {
+        storeFood -= 1;
+        Debug.Log("Food left: " + storeFood);
     }
 }
