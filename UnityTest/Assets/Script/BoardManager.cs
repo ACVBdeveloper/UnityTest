@@ -22,7 +22,7 @@ public class BoardManager : MonoBehaviour
 
     //int tileNumber = Random.Range(0, groundTiles.Length);
     //m_TileMap.SetTile(new Vector3Int(i, j, 0), groundTiles[tileNumber]);
-    void Start()
+    public void Init()
     {
         m_TileMap = GetComponentInChildren<Tilemap>();
         m_Grid = GetComponentInChildren<Grid>();
@@ -50,13 +50,6 @@ public class BoardManager : MonoBehaviour
                 m_TileMap.SetTile(new Vector3Int(x, y, 0), tile);
             }
         }
-
-        if (m_Grid == null)
-        {
-            Debug.LogError("Grid não encontrado! Verifique a hierarquia.");
-        }
-
-        Player.Spawn(this, new Vector2Int(1, 1));
         
     }
 
