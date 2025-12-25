@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public TurnManager turnManager { get; private set; }
     private int storeFood;
     public UIDocument uiDoc;
+
     private Label m_FoodLabel;
 
 
@@ -49,5 +50,11 @@ public class GameManager : MonoBehaviour
     {
         storeFood -= 1;
         Debug.Log("Food left: " + storeFood);
+    }
+
+    public void changeFood(int amount)
+    {
+        storeFood += amount;
+        m_FoodLabel.text = "Food: " + storeFood;
     }
 }
