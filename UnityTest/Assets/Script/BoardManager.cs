@@ -9,7 +9,7 @@ public class BoardManager : MonoBehaviour
     public class CellData 
     {
         public bool passable;
-        public GameObject containerObject;
+        public CellObject containerObject;
     }
    
     private CellData[,] m_BoardData;
@@ -20,7 +20,7 @@ public class BoardManager : MonoBehaviour
     public Tile[] wallTiles;
     private Grid m_Grid;
     public PlayerController Player;
-    public GameObject foodPrefab;
+    public FoodObject foodPrefab;
     private List<Vector2Int> m_EmptyCellsList;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -96,7 +96,7 @@ public class BoardManager : MonoBehaviour
 
             m_EmptyCellsList.RemoveAt(ramdomIndex);
             CellData data = m_BoardData[coord.x, coord.y];
-            GameObject newFood = Instantiate(foodPrefab);
+            FoodObject newFood = Instantiate(foodPrefab);
             newFood.transform.position = CellToWorld(coord);
             data.containerObject = newFood;
         }
