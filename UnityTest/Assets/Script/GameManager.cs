@@ -48,8 +48,7 @@ public class GameManager : MonoBehaviour
 
     public void OnTurnHappens() 
     {
-        storeFood -= 1;
-        Debug.Log("Food left: " + storeFood);
+        changeFood(-1);
     }
 
     public void changeFood(int amount)
