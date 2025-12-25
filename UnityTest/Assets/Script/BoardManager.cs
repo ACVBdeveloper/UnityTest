@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
 
-public class BoardManager : MonoBehaviour
+public class BoardManager : CellObject
 {
 
     public class CellData 
@@ -22,6 +22,7 @@ public class BoardManager : MonoBehaviour
     public PlayerController Player;
     public FoodObject foodPrefab;
     private List<Vector2Int> m_EmptyCellsList;
+    public WallObject wallPreFab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -63,6 +64,7 @@ public class BoardManager : MonoBehaviour
 
         m_EmptyCellsList.Remove(new Vector2Int(1, 1));
         GenerateFood();
+        GenerateWall();
 
     }
 
@@ -100,5 +102,29 @@ public class BoardManager : MonoBehaviour
             newFood.transform.position = CellToWorld(coord);
             data.containerObject = newFood;
         }
+    }
+
+    void GenerateWall()
+    {
+        int wallCount = Random.Range(6, 10);
+        for (int i = 0; i < wallCount; i++)
+        {
+            int randomIndex = Random.Range(0, m_EmptyCellsList.Count);
+            Vector2Int coord = m_EmptyCellsList[randomIndex];
+
+            m_EmptyCellsList.RemoveAt(randomIndex);
+            CellData data = m_BoardData[coord.x, coord.y];
+            WallObject newWall = Instantiate(wallPreFab);
+
+            //Init wall
+            newWall.Init(coord);
+            newWall.transform.position = CellToWorld(coord);
+            data.containerObject = newWall;
+        }
+    }
+
+    public void SetTileCell(Vector2Int cellIndex, Tile tile)
+    {
+        m_TileMap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y,0), tile);
     }
 }
