@@ -99,8 +99,11 @@ public class BoardManager : CellObject
             m_EmptyCellsList.RemoveAt(ramdomIndex);
             CellData data = m_BoardData[coord.x, coord.y];
             FoodObject newFood = Instantiate(foodPrefab);
+            AddObject(newFood, coord);
+            /*//Init food old way
             newFood.transform.position = CellToWorld(coord);
             data.containerObject = newFood;
+            */
         }
     }
 
@@ -115,11 +118,14 @@ public class BoardManager : CellObject
             m_EmptyCellsList.RemoveAt(randomIndex);
             CellData data = m_BoardData[coord.x, coord.y];
             WallObject newWall = Instantiate(wallPreFab);
+            AddObject(newWall, coord);
 
-            //Init wall
+            /*
+            //Init wall old way
             newWall.Init(coord);
             newWall.transform.position = CellToWorld(coord);
             data.containerObject = newWall;
+            */
         }
     }
 
@@ -127,4 +133,18 @@ public class BoardManager : CellObject
     {
         m_TileMap.SetTile(new Vector3Int(cellIndex.x, cellIndex.y,0), tile);
     }
+
+    void AddObject(CellObject obj, Vector2Int coord) 
+    {
+        CellData data = m_BoardData[coord.x, coord.y];
+        obj.transform.position = CellToWorld(coord);
+        data.containerObject = obj;
+        obj.Init(coord);
+    }
+
+    public Tile GetCellTile(Vector2Int cellIndex)
+    {
+        return m_TileMap.GetTile<Tile>(new Vector3Int(cellIndex.x, cellIndex.y, 0));
+    }
+
 }
